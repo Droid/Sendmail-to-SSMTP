@@ -16,15 +16,23 @@ rm -rf /usr/sbin/sendmail
 ln -s /usr/sbin/ssmtp /usr/sbin/sendmail
 
 # Write config file for ssmtp
-# Change "mydomain.com", "user@mydomain.com", and "API_KEY_FROM_MANDRILL"
+# Change "mydomain.com", "user@mydomain.com", and "API_KEY_OR_PASSWORD"
 # Replace "smtp.mandrillapp.com" with "smtp.sendgrid.net" to use SendGrid, you can specify any other SMTP server also
+# Where mail will come from
 echo "rewriteDomain=mydomain.com" > /etc/ssmtp/ssmtp.conf
+# Server hostname
 echo "hostname=mydomain.com" >> /etc/ssmtp/ssmtp.conf
+# Where mail will be routed from
 echo "mailhub=smtp.mandrillapp.com:587" >> /etc/ssmtp/ssmtp.conf
+# Use TLS 
 echo "UseSTARTTLS=YES" >> /etc/ssmtp/ssmtp.conf
+# Authenticate username with mail server
 echo "AuthUser=user@mydomain.com" >> /etc/ssmtp/ssmtp.conf
-echo "AuthPass=API_KEY_FROM_MANDRILL" >> /etc/ssmtp/ssmtp.conf
+# Authenticate Password or API key with mail server
+echo "AuthPass=API_KEY_OR_PASSWORD" >> /etc/ssmtp/ssmtp.conf
+# Will other users be able to change the "FROM" field
 echo "FromLineOverride=YES" >> /etc/ssmtp/ssmtp.conf
+# SSL certificates
 echo "TLS_CA_File=/etc/pki/tls/certs/ca-bundle.crt" >> /etc/ssmtp/ssmtp.conf
 echo "" > /etc/ssmtp/revaliases
 
